@@ -1,31 +1,32 @@
 <template>
     <main>
-        <section id="task-item">
+        <section id="task-item" >
             <table width="100%">
-                    <tr>
-                        <td width="50px" align="center">
-                            <input type="checkbox" name="" id="">
-                    </td>
-                        <td padding="0px" align="center" class="texto">{{task}}</td>
-                    </tr>
-            </table>
-        </section>
-        <section id="task-actions">
-            <table width="100%">
-                    <tr>
+                <!-- foi usado um v-for para percorrer o array e exebir os dados das tarefas-->
+                    <tr  v-for="(item, idx) in tasks">
+                        <td padding="0px" align="center" class="texto">{{item.title}}</td>
                         <td padding="0px" width="200px" align="center" display="flex">
-                            <button id="edit">Edit</button>
-                            <button id="delete">Delete</button>
+                            <!-- Usando o emit para chamar a funcao recebida pelo componente pai e enviamos a posicao do array -->
+                            <button id="edit" @click="emit('renderTask', idx)">Edit</button>
+                            <!-- Usando o emit para chamar a funcao recebida pelo componente pai e enviamos a posicao do array -->
+                            <button id="delete" @click="emit('deleteTask', idx)">Delete</button>
                         </td>
-                    </tr>  
+                    </tr>
             </table>
         </section>
     </main>
           
 </template>
+
 <script setup>
-import test from './TodoTaskInput.vue'
+
+    // props recebida pelo componente pai (App), Tasks é um array com todas as tarefas adicionadas
+    const props = defineProps(['tasks'])
+    // funcao recebida pelo componente pai (App)
+    const emit = defineEmits(['renderTask'])
 </script>
+
+
 <style scoped>
 .texto{
     max-width: 700px;
@@ -39,7 +40,7 @@ main{
     width: 100%;
     display: flex;
     border-radius: 5px;
-    height: 100px;
+   
     box-shadow: rgba(100, 100, 111, 0.2) 4px 4px 50px 10px;
 }
 #task-actions{
